@@ -1,0 +1,133 @@
+{% firstof 15 as top %}
+{% firstof 5 as bottom %}
+
+{% if keyword != None and keyword != '' %}
+    {% firstof 5 as top %}
+    {% firstof 5 as bottom %}
+
+{% endif %}
+
+
+<div style="position: relative;margin-top: {{top}}% !important;margin: 0 auto;background: white;width: 60%;border-radius:.35rem!important;margin-bottom: {{bottom}}% !important;">
+
+    <div style="padding:4%">
+        <div id="search-form">
+            <div style="padding-top:2%;padding-bottom:6%">
+                <div class="sidebar-brand-text mx-3" style="text-transform:initial;font-size: 26px;text-align: center;">Gooly</div>
+            </div>
+            <div class="input-group">
+                {% firstof keyword as keyword1 %}
+
+                {% if keyword == None or keyword == '' %}
+                    {% firstof "" as keyword1 %}
+                    {% firstof "autofocus" as af %}
+                {% endif %}
+
+                <input id="input" type="text" class="form-control bg-light border-0 small" aria-label="Search" aria-describedby="basic-addon2" onkeyup="search_input_suggest(event)" value="{{keyword1}}" {{af}}>
+                <div class="input-group-append">
+
+                    <button class="btn btn-primary" type="button" id="search_voice" onClick="search_voice()">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+
+                    {% if keyword != None and keyword != '' %}
+                        <button class="btn btn-primary" type="button" onClick="search_input_submit()">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    {% endif %}
+            
+                </div>
+            </div>
+            {% if keyword == None or keyword == '' %}
+                <div style="padding-top:4%">
+                
+                    <div class="input-group" style="margin: 0 auto;width: max-content;">
+
+                    <a href="#" class="btn btn-primary btn-icon-split" onClick="search_input_submit()">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-search"></i>
+                    </span>
+                    <span class="text">Search</span>
+                  </a>
+                      
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if keyword != None and keyword != '' %}
+            <div id="search-result" style="padding-top:4%">
+                
+                <ul class="nav nav-tabs" style="padding-bottom:4%;border-bottom:unset">
+                    <li class="nav-item">
+                        <a class="nav-link {% if page == "index" %} {{"active"}} {% endif %}" style="border-bottom: unset;" href="javascript:;" onClick="$(window).attr('location','/'+location.search)">All</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if page == "images" %} {{"active"}} {% endif %}" href="javascript:;" onClick="var url = [location.protocol, '//', location.host].join('');$(window).attr('location',url+/images/+location.search)" style="border-bottom: unset;">Images</a>
+                    </li>
+                </ul>
+
+                {% if page == "index" %} 
+                    {% include "./search_result.html" %}
+                {% elif page == "images" %}
+                    {% include "./search_result_images.html" %}
+                {% endif %}
+
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+
+    $search_voice = false;
+
+    function search_voice(){
+        if ($search_voice) {
+            recognition.stop();
+            $("#search_voice").attr('class', 'btn btn-primary');
+            $search_voice = false;
+        } else {
+            $("#search_voice").attr('class', 'btn btn-danger');
+            $search_voice = true;
+            recognition.start();
+        }
+    }
+
+    function search_input_suggest(event) {
+
+        if (event.keyCode == 13) {
+            return search_input_submit()
+        }
+
+        keyword = $("#search-form #input").val();
+
+        $.ajax({
+            url: '/search/suggest/',
+            data: {
+                'keyword': keyword
+            },
+            dataType: 'json',
+            success: function (data) {
+                
+            }
+        });
+
+    }
+
+    function search_input_submit() {
+        keyword = $("#search-form #input").val();
+        if (keyword == "") {
+            alert("Please enter keyword before searching!")
+            return;
+        }
+        $(window).attr('location',addParam(addParam($(location).attr('href'),"keyword",keyword),"page",1))
+    }
+
+    function addParam(currentUrl,key,val) {
+        var url = new URL(currentUrl);
+        url.searchParams.set(key, val);
+        return url.href; 
+    }
+
+</script>

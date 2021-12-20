@@ -1,0 +1,99 @@
+<script>
+    $search_results_page = {{search_result.results_page_current}};
+    
+    function search_results_previous(){
+        if ($search_results_page <= 1) {
+            return;
+        }
+        search_results_page($search_results_page-1)
+    }
+
+    function search_results_next(){
+        if ($search_results_page >= {{search_result.results_page_count}}) {
+            return;
+        }
+        search_results_page($search_results_page+1)
+    }
+
+    function search_results_page($page){
+        $(window).attr('location',addParam($(location).attr('href'),"page",$page))
+    }
+    
+</script>
+
+<div id="result-stats">About ({{search_result.results_count_all}}) results<nobr> ({{search_result_time}} seconds)&nbsp;</nobr></div>
+
+<div style="padding-top:4%">
+    {% for rs in search_result.results %}
+    <div class="card mb-4 py-3 border-bottom-primary">
+            <div class="card-body" style="    padding-bottom: 0px; !importaint"> 
+                <div class="rc" data-hveid="CAMQAA" data-ved="2ahUKEwj_kaur2dPpAhXTa94KHdqLCqMQFSgAMAB6BAgDEAA">
+    <div class="r">
+        <a href="{{rs.url}}" ping="/site/visit?id={{rs.id}}&keyword={{keyword}}" target="_blank">
+            <br>
+            <h3 class="LC20lb DKV0Md">{{rs.html_tag_title}}</h3>
+            <div class="TbwUpd NJjxre" style="position: absolute;
+                                            left: 0;
+                                            top: 0;
+                                            padding-bottom: 1px;
+                                            padding-top: 22px;
+                                            padding-left: 20px;">
+                <img class="xA33Gc" style="margin-right:10px" alt="" height="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAaVBMVEXXLTDWJSjWHyPVDhTecHHjlZbeamzgfH3y8vL1///z+PjWFxvjj5Dy9PTWGx/XKSzaTE7ZPT/XKi3puLjbVFbbUFLloaHmqanw5eXqwsPiiovgenvszs7u2trt1NTryMjhg4TlnZ7aQ0Zm8MceAAAAf0lEQVR4AY1OxQGEQAxcdwkO50f/RRKcJ3HPkLtEGaOXlHEhpeJHiWtjnbNG+DX3wUaDFK1Oc57BGeNMnKUo54HKGSfrpkXXzSO+j3F4WPt8xfjm8wsclZ8Yv62Lvd8mqp+1Ytgm0h/HOYwc1wIj80g9MpJLkqBZgczJ6jO5QxMQSAaWL5wrgAAAAABJRU5ErkJggg==" width="16" data-atf="1">
+    
+                <cite class="iUh30 bc tjvcx">
+                    {% for bbc in rs.result_breadcrumb_by_url %}
+                        {{bbc}}
+
+                        {% if forloop.last %}
+                        {% else %}
+                            {{ ' › '}}
+                        {% endif %}
+                        
+                    {% endfor %}
+                </cite>
+            </div>
+        </a>
+        
+    </div>
+</div>
+
+        <div class="s" style="">
+            <div><span class="st">{{rs.html_tag_meta_description}}</span>
+            </div>
+        </div>
+            </div>
+        </div>
+       
+    {% endfor %}
+</div>
+
+<div class="row">
+
+    {% if search_result.results_count_all > 0 %} 
+        <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing {{search_result.results_count_show_from}} to {{search_result.results_count_show_to}} of {{search_result.results_count_all}} results</div>
+        </div>
+    {% endif %}
+   
+    {% if search_result.results_page_count > 1 %}
+        <div class="col-sm-12 col-md-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                <ul class="pagination" style="margin-bottom: 0px;float: right;">
+                    {% if search_result.results_page_current > 1 %}
+                        <li onClick="search_results_previous()" class="paginate_button page-item previous" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                    {% endif %}
+
+                    {% for x in search_result.results_page_list %}
+                        <li onClick = "search_results_page({{x}})" class="paginate_button page-item {% if x == search_result.results_page_current %} {{"active"}} {% endif %}"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">{{x}}</a></li>
+                    {% endfor %}
+
+                    {% if search_result.results_page_current < search_result.results_page_count %}
+                        <li onClick="search_results_next()" class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+
