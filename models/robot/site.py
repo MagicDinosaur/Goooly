@@ -3,13 +3,16 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import urllib.parse
 import traceback
-
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 class site:
 
     @staticmethod
     def get(url):
         try:
+
             webpage = urlopen(url)
+
             if webpage.getcode() != 200:
                 return None
 
@@ -21,7 +24,7 @@ class site:
                 html_tag_title = soup.title.string
             except:
                 pass
-            #
+            #finding title of web
             try:
                 html_tag_meta_title = soup.find("meta",property="og:title")['content']
             except:
@@ -32,7 +35,8 @@ class site:
                         html_tag_meta_title = soup.find("meta",itemprop="name")['content']
                     except:
                         pass
-            #
+            #finding the description of the web
+
             try:
                 html_tag_meta_description = soup.find("meta",property="og:description")['content']
             except:
@@ -66,5 +70,5 @@ class site:
 
             return mydict
         except:
-            # traceback.print_exc()
+            traceback.print_exc()
             return None

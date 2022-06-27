@@ -1,7 +1,9 @@
 from models.database import database
 
-dbm =  database ("localhost","root","","Gooly")
-
+dbm =  database("localhost","root","","Gooly")
+"""
+handling searching result
+"""
 def suggest(keyword):
     pass
 
@@ -70,7 +72,7 @@ def result(keyword = None,page = 1, limit = 10):
 
             # print(record)
 
-            thisdict = {"id": record[0],
+            dict_ = {"id": record[0],
                         "url": record[1],
                         "html_tag_meta_description": record[3],
                         "html_tag_title": record[2],
@@ -79,7 +81,7 @@ def result(keyword = None,page = 1, limit = 10):
 
             # print(thisdict)
             
-            dic["results"].append(thisdict)
+            dic["results"].append(dict_)
 
 
         return dic

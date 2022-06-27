@@ -13,12 +13,15 @@ import shutil
 import urllib.request
 import pathlib
 from random import randrange
+"""
+robot tool to recursively find and add data from website to local storage
+"""
+site_list = ['https://www.cnet.com/']
 
-site_list = ['https://kenh14.vn/','https://vnexpress.net/']
-
-dbm =  database ("localhost","root","","Gooly")
+dbm =  database ("localhost","root","","gooly")
 
 while True:
+
     try:
         if (len(site_list) == 0):
             break
@@ -62,5 +65,6 @@ while True:
         )
 
         dbm.conn.commit()
+
     except:
         pass
