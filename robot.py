@@ -61,50 +61,6 @@ while True:
             )
         )
 
-        # dbm.cursor.execute("SELECT @@IDENTITY AS ID;")
-        # site_id = dbm.cursor.fetchone()[0]
-
-        # if (get['html_tag_meta_image'] != ""):
-        #     try:
-        #         fname = getFileName(get['html_tag_meta_image'],urllib.request.urlopen(urllib.request.Request(get['html_tag_meta_image'])))
-        #
-        #         result =  dbm.cursor.execute(
-        #             "INSERT INTO site_image (site_id, url, name, type, server_time_created)  VALUES (?,?,?,?,?);",
-        #             site_id,
-        #             url,
-        #             pathlib.Path(fname).stem,
-        #             pathlib.Path(fname).suffix.replace(".",""),
-        #             int(time.time())
-        #         )
-        #
-        #         dbm.cursor.execute("SELECT @@IDENTITY AS ID;")
-        #         site_img_id = dbm.cursor.fetchone()[0]
-        #
-        #         download(get['html_tag_meta_image'],str(site_img_id)+"."+pathlib.Path(fname).suffix.replace(".",""))
-        #     except:
-        #         pass
-        #
-        # if (len(get['html_tag_img_src']) > 0):
-        #     for x in get['html_tag_img_src']:
-        #         try:
-        #             fname = getFileName(x,urllib.request.urlopen(urllib.request.Request(x)))
-        #
-        #             result =  dbm.cursor.execute(
-        #                 "INSERT INTO site_image (site_id, url, name, type, server_time_created)  VALUES (?,?,?,?,?);",
-        #                 site_id,
-        #                 url,
-        #                 pathlib.Path(fname).stem,
-        #                 pathlib.Path(fname).suffix.replace(".",""),
-        #                 int(time.time())
-        #             )
-        #
-        #             dbm.cursor.execute("SELECT @@IDENTITY AS ID;")
-        #             site_img_id = dbm.cursor.fetchone()[0]
-        #
-        #             download(x,str(site_img_id)+"."+pathlib.Path(fname).suffix.replace(".",""))
-        #         except:
-        #             pass
-
         dbm.conn.commit()
     except:
         pass
