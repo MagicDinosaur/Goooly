@@ -12,8 +12,10 @@ import urllib.parse
 import shutil
 import urllib.request
 import pathlib
+import traceback
 from random import randrange
 """
+
 robot tool to recursively find and add data from website to local storage
 """
 site_list = ['https://www.cnet.com/']
@@ -37,12 +39,12 @@ while True:
             continue
 
         print("url: "+url)
-        print("html_tag_title: "+get['html_tag_title'])
-        print("html_tag_meta_title: "+get['html_tag_meta_title'])
-        print("html_tag_meta_description: "+get['html_tag_meta_description'])
-        print("html_tag_meta_image: "+get['html_tag_meta_image'])
-        print("html_tag_a_href length: "+str(len(get['html_tag_a_href'])))
-        print("html_tag_img_src length: "+str(len(get['html_tag_img_src'])))
+        # print("html_tag_title: "+get['html_tag_title'])
+        # print("html_tag_meta_title: "+get['html_tag_meta_title'])
+        # print("html_tag_meta_description: "+get['html_tag_meta_description'])
+        # print("html_tag_meta_image: "+get['html_tag_meta_image'])
+        # print("html_tag_a_href length: "+str(len(get['html_tag_a_href'])))
+        # print("html_tag_img_src length: "+str(len(get['html_tag_img_src'])))
 
         print("==============================================")
 
@@ -50,6 +52,7 @@ while True:
 
         dbm.cursor.execute('SELECT id FROM site WHERE url = %s',(url,))
         records = dbm.cursor.fetchall()
+
         if len(records) > 0:
             continue
 
@@ -63,7 +66,8 @@ while True:
                 int(time.time()),
             )
         )
-
+        print(result)
+        traceback.print_exc()
         dbm.conn.commit()
 
     except:

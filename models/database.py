@@ -4,7 +4,6 @@ import mysql.connector
 
 class database:
 
-
 	def __init__(self, server_name, username, password, dbn):
 		self.conn = mysql.connector.connect(user=username, password=password,
 											host=server_name,
