@@ -1,3 +1,4 @@
+import datetime
 import sys
 import requests
 # from .DatabaseManager import NewDatabaseManager
@@ -20,7 +21,25 @@ robot tool to recursively find and add data from website to local storage
 """
 site_list = ['https://www.cnet.com/']
 
-dbm =  database ("localhost","root","","gooly")
+dbm =  database("localhost","root","","gooly")
+print(dbm.cursor)
+random_index = randrange(len(site_list))
+url = site_list[random_index]
+print(url)
+dbm.cursor.execute('SELECT id FROM site WHERE url = %s',(url,))
+records = dbm.cursor.fetchall()
+print(records)
+
+get = site.get(url)
+
+
+print("url: "+url)
+print("html_tag_title: "+get['html_tag_title'])
+print("html_tag_meta_title: "+get['html_tag_meta_title'])
+print("html_tag_meta_description: "+get['html_tag_meta_description'])
+print("html_tag_meta_image: "+get['html_tag_meta_image'])
+print("html_tag_a_href length: "+str(len(get['html_tag_a_href'])))
+print("html_tag_img_src length: "+str(len(get['html_tag_img_src'])))
 
 while True:
 
@@ -39,12 +58,12 @@ while True:
             continue
 
         print("url: "+url)
-        # print("html_tag_title: "+get['html_tag_title'])
-        # print("html_tag_meta_title: "+get['html_tag_meta_title'])
-        # print("html_tag_meta_description: "+get['html_tag_meta_description'])
-        # print("html_tag_meta_image: "+get['html_tag_meta_image'])
-        # print("html_tag_a_href length: "+str(len(get['html_tag_a_href'])))
-        # print("html_tag_img_src length: "+str(len(get['html_tag_img_src'])))
+        print("html_tag_title: "+get['html_tag_title'])
+        print("html_tag_meta_title: "+get['html_tag_meta_title'])
+        print("html_tag_meta_description: "+get['html_tag_meta_description'])
+        print("html_tag_meta_image: "+get['html_tag_meta_image'])
+        print("html_tag_a_href length: "+str(len(get['html_tag_a_href'])))
+        print("html_tag_img_src length: "+str(len(get['html_tag_img_src'])))
 
         print("==============================================")
 
@@ -53,22 +72,26 @@ while True:
         dbm.cursor.execute('SELECT id FROM site WHERE url = %s',(url,))
         records = dbm.cursor.fetchall()
 
-        if len(records) > 0:
+        # print("records: ", dbm.cursor._last_executed )
+
+        # if len(records) > 0:
+        #     continue
+        if( str(get['html_tag_title']) == "" or str(get['html_tag_meta_title']) == "" or str(get['html_tag_meta_description']) == "" or str(get['html_tag_meta_image']) == ""):
             continue
 
-        result =  dbm.cursor.execute(
-            "INSERT INTO site (url, html_tag_title, html_tag_meta_title, html_tag_meta_description, html_tag_meta_image, server_time_created)  VALUES (%s, %s,%s,%s,%s,%s);",(
+        result = dbm.cursor.execute(
+            "INSERT INTO site (url, html_tag_title, html_tag_meta_title, html_tag_meta_description, html_tag_meta_image, server_time_created)  VALUES (%s, %s,%s,%s,%s,%s);",
+            (
                 url,
-                get['html_tag_title'],
-                get['html_tag_meta_title'],
-                get['html_tag_meta_description'],
-                get['html_tag_meta_image'],
-                int(time.time()),
+                str(get['html_tag_title']),
+                str(get['html_tag_meta_title']),
+                str(get['html_tag_meta_description']),
+                str(get['html_tag_meta_image']),
+                time.strftime('%Y-%m-%d %H:%M:%S'),
             )
         )
-        print(result)
-        traceback.print_exc()
         dbm.conn.commit()
+
 
     except:
         pass
