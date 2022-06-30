@@ -19,6 +19,7 @@ def result(keyword = None,page = 1, limit = 10):
     dic["results_page_current"] = 0
     dic["results_page_list"] = []
 
+
     try:
 
         keyword = '%'.join(keyword.split())
