@@ -89,7 +89,7 @@ With that ideas in mind, I started developing a tool that could recursively call
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/MagicDinosaur/Goooly.git
    ```
 2. Install NPM packages
    ```sh
