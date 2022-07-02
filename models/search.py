@@ -21,15 +21,15 @@ def result(keyword = None,page = 1, limit = 10):
 
 
     try:
-
-        keyword = '%'.join(keyword.split())
+        print("keyword:",keyword)
+        keyword = '%'.join(keyword.split()) if keyword else ""
 
         sql = "SELECT * FROM site b WHERE CONCAT(b.url, b.html_tag_title, b.html_tag_meta_description) LIKE '%{}%' ORDER BY (select count(p.id) from site_visit p where p.id = b.id) DESC ".format(keyword)
-        print(sql)
+
 
         dbm.cursor.execute(sql)
         records = dbm.cursor.fetchall()
-
+        # print(records)
         if len(records) <= 0:
             return dic
 

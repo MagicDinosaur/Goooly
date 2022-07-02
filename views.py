@@ -18,7 +18,6 @@ def index(request):
     search_result = search.result(request.GET.get("keyword"),search_page)
     done = time.time()
     search_result_time = done - start
-
     return render(request,"index.html",{"page":page,"keyword":search_keyword,"search_result":search_result,"search_result_time":search_result_time})
 
 def images(request):
