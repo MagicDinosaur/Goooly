@@ -64,7 +64,8 @@ class site:
             cars1 = []
             images = soup.findAll('img')
             for image in images:
-                cars1.append(urllib.parse.urljoin(url,image['src']))
+                if ('src' in image):
+                    cars1.append(urllib.parse.urljoin(url,image['src']))
 
             mydict = {"html_tag_title": html_tag_title, "html_tag_meta_title": html_tag_meta_title, "html_tag_meta_description": html_tag_meta_description, "html_tag_meta_image" : html_tag_meta_image, "html_tag_a_href" : cars, "html_tag_img_src" : cars1}
 

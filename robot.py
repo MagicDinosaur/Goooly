@@ -19,7 +19,7 @@ from random import randrange
 
 robot tool to recursively find and add data from website to local storage
 """
-site_list = ['https://www.cnet.com/']
+site_list = ['https://www.cnet.com/','https://www.theverge.com/']
 
 dbm =  database("localhost","root","","gooly")
 print(dbm.cursor)
