@@ -2,7 +2,6 @@ import inspect, os, csv
 import logging
 import mysql.connector
 #change to django ORM
-
 class database:
 	def __init__(self, server_name, username, password, dbn):
 		self.conn = mysql.connector.connect(user=username, password=password,
