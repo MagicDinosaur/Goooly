@@ -10,3 +10,6 @@ class database:
 		self.database = dbn
 		self.cursor = self.conn.cursor()
 
+	def __del__(self):
+		self.cursor.close()
+		self.conn.close()
